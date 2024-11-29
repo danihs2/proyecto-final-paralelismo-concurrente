@@ -32,6 +32,26 @@ public class Tarjeta {
             lock.unlock();
         }
     }
+    
+    public void cargarSaldo(String montoText){
+        lock.lock();
+        double monto = 0;
+        try{
+            monto = Double.parseDouble(montoText);
+        }catch(Exception e){
+            System.out.println("No has pasado un numero");
+        }
+        try {
+            if (monto > 0) {
+                saldo += monto;
+                System.out.println("Se han cargado $" + monto + " a la tarjeta " + id + ". Saldo actual: $" + saldo);
+            } else {
+                System.out.println("Monto inválido para cargar en la tarjeta " + id);
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
 
     // Operación para realizar un pago
     public void realizarPago(double monto) {

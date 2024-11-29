@@ -19,7 +19,7 @@ public class SistemaTarjetas {
     // Crear tarjetas con saldos iniciales
     public void inicializarTarjetas(int cantidad) {
         for (int i = 1; i <= cantidad; i++) {
-            tarjetas.add(new Tarjeta(i, 100.0)); // Cada tarjeta comienza con $100
+            tarjetas.add(new Tarjeta(i, 0.0)); // Cada tarjeta comienza con $100
         }
     }
 
@@ -27,7 +27,27 @@ public class SistemaTarjetas {
     public void inicializarUsuarios(int cantidad) {
         for (int i = 0; i < cantidad; i++) {
             Tarjeta tarjetaAsignada = tarjetas.get(i % tarjetas.size()); // Asignar tarjetas cíclicamente
-            Usuario usuario = new Usuario("Usuario-" + (i + 1), tarjetaAsignada);
+            switch(i){
+                case 0:
+                    tarjetaAsignada = tarjetas.get(0);
+                    System.out.println(i+"-Tj asig" + tarjetaAsignada.getId());
+                    break;
+                case 1:
+                    tarjetaAsignada = tarjetas.get(1);
+                    System.out.println(i+"-Tj asig" + tarjetaAsignada.getId());
+                    break;
+                case 2:
+                    tarjetaAsignada = tarjetas.get(2);
+                    System.out.println(i+"-Tj asig" + tarjetaAsignada.getId());
+                    break;
+                case 3:
+                    tarjetaAsignada = tarjetas.get(0);
+                    break;
+                case 4:
+                    tarjetaAsignada = tarjetas.get(1);
+                    break;
+            }
+            Usuario usuario = new Usuario(i, "Usuario-" + (i + 1), tarjetaAsignada);
             usuarios.add(new Thread(usuario, "Hilo-" + (i + 1)));
         }
     }
@@ -43,6 +63,7 @@ public class SistemaTarjetas {
         for (Thread usuario : usuarios) {
             try {
                 usuario.join();
+                System.out.println(usuario.getName() + " finalizado.");
             } catch (InterruptedException e) {
                 System.out.println(usuario.getName() + " fue interrumpido.");
             }
